@@ -11,27 +11,27 @@ A student and a company can create accounts, complete profiles, and access their
 | Card | Owner | Reviewer |
 |---|---|---|
 | Confirm monorepo structure | Jamal | All |
-| Confirm API conventions | Jamal | Hicham |
-| Confirm database entities | Hicham | Jamal |
-| Confirm local Docker environment | Mouhamed | Jamal |
+| Confirm API conventions | Jamal | **Owner to be assigned** |
+| Confirm database entities | **Owner to be assigned** | Jamal |
+| Confirm local Docker environment | Mohamed | Jamal |
 | Create frontend application skeleton | Adam | Salah |
-| Create backend application skeleton | Hicham | Jamal |
+| Create backend application skeleton | **Owner to be assigned** | Jamal |
 
 ### Infrastructure
 
 | Card | Owner | Acceptance criteria |
 |---|---|---|
-| Docker Compose PostgreSQL | Mouhamed | Database starts locally |
-| Docker Compose Redis | Mouhamed | Redis accepts connections |
-| Environment variable template | Mouhamed | No secrets committed |
-| API health endpoint | Hicham | `/health` returns service status |
+| Docker Compose PostgreSQL | Mohamed | Database starts locally |
+| Docker Compose Redis | Mohamed | Redis accepts connections |
+| Environment variable template | Mohamed | No secrets committed |
+| API health endpoint | **Owner to be assigned** | `/health` returns service status |
 | Frontend development setup | Adam | React app starts locally |
 
 ### Authentication
 
 | Card | Owner | Acceptance criteria |
 |---|---|---|
-| User model and migration | Hicham | Migration runs successfully |
+| User model and migration | **Owner to be assigned** | Migration runs successfully |
 | Password hashing | Jamal | Password is never stored in plain text |
 | Student registration | Jamal + Adam | Student can register |
 | Company registration | Jamal + Salah | Company can register |
@@ -43,11 +43,11 @@ A student and a company can create accounts, complete profiles, and access their
 
 | Card | Owner | Acceptance criteria |
 |---|---|---|
-| Student profile model | Hicham | Required and optional fields exist |
+| Student profile model | **Owner to be assigned** | Required and optional fields exist |
 | Student profile UI | Adam | Student can edit profile |
-| Company profile model | Hicham | Company information is persisted |
+| Company profile model | **Owner to be assigned** | Company information is persisted |
 | Company profile UI | Salah | Company can edit profile |
-| Profile completion calculation | Hicham | Required fields are checked consistently |
+| Profile completion calculation | **Owner to be assigned** | Required fields are checked consistently |
 | Profile access tests | Jamal | Unrelated users cannot access private profiles |
 
 ## Milestone demonstration

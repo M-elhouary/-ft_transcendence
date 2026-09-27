@@ -1,7 +1,7 @@
 # AI Labs: Beginner Implementation Guide
 
 **Project:** ft_transcendence — student preparation and company labs  
-**Team:** Mohamed, Jamal, Adam, Salah, Hicham  
+**Team:** Mohamed, Simo, Jamal, Adam, Salah  
 **Date:** 25 September 2026  
 **Status:** implementation proposal based on the team's agreed product scope. Technology choices and numerical limits below are proposals unless explicitly identified as agreed.
 
@@ -13,7 +13,7 @@ The product helps companies understand a student's work. It does not certify cor
 
 ### Agreed first-release boundaries
 
-- Implement the LLM interface first. Design an extension point for RAG, but implement RAG only if time remains.
+- Implement the LLM interface first. Design an extension point for RAG; RAG is a planned deliverable (document ingestion, text extraction, chunking, embeddings, retrieval, and grounded answers) implemented after LLM integration.
 - Start with simple exercises and one supported workspace template.
 - Company approval is required before publishing an AI-generated lab.
 - Students solve labs inside the platform.
@@ -36,7 +36,7 @@ We are simplifying grading, not eliminating the need to build secure workspaces,
 2. Sections 6–9: understand generation, workspaces, evidence, and submission.
 3. Sections 10–13: understand AI review, scores, streaming, and failures.
 4. Sections 14–18: agree on data, APIs, ownership, and implementation tasks.
-5. Sections 19–23: test quality, prepare evaluation, and plan optional RAG.
+5. Sections 19–23: test quality, prepare evaluation, and plan RAG implementation.
 
 Do not try to implement every section simultaneously. Begin with one generated draft and one manually assembled evidence package.
 
@@ -88,7 +88,7 @@ Model API integration, prompt design, structured outputs, validation, streaming,
 | Validate report shape and references | Backend | Reject inconsistent or malformed output |
 | Decide whether to contact a student | Company | Human hiring decision |
 
-“Hicham owns submission automation” means Hicham implements it once. He does not manually operate every submission. New lab scenarios are data; they should not require changing the submission workflow.
+“Owner to be assigned owns submission automation” means they implement it once. They do not manually operate every submission. New lab scenarios are data; they should not require changing the submission workflow.
 
 ## 5. Architecture with the smallest useful boundaries
 
@@ -614,7 +614,7 @@ These are conceptual records; they may become tables or collections according to
 
 Store large artifacts in controlled file/object storage and keep references in the database. Use immutable or application-protected snapshot paths inaccessible to student write operations.
 
-Publication and company-review permissions remain part of Salah/Jamal/Hicham's existing workflows. Do not create a second identity system for AI.
+Publication and company-review permissions remain part of Salah/Jamal/**Owner to be assigned**'s existing workflows. Do not create a second identity system for AI.
 
 ## 15. API contracts to agree before coding
 
@@ -625,14 +625,14 @@ The endpoints below are illustrative, not a forced framework or finalized naming
 | POST /ai/lab-drafts | Validate generation request and begin streaming/job | Mohamed with Jamal |
 | POST /labs/{id}/versions | Save edited draft version | Salah |
 | POST /labs/{id}/publish | Verify approval and publish | Salah using shared permissions |
-| POST /labs/{id}/workspaces | Start/resume authorized student workspace | Hicham + Mohamed |
-| GET /workspaces/{id}/files | List/read permitted project files | Hicham + Mohamed |
-| PUT /workspaces/{id}/files | Save permitted files | Hicham + Mohamed |
-| WSS /workspaces/{id}/terminal | Authenticated terminal session | Hicham + Mohamed, Jamal review |
-| POST /workspaces/{id}/runs | Request supported captured action | Mohamed + Hicham |
-| POST /labs/{id}/submissions | Freeze and save a submission | Hicham |
-| GET /submissions/{id}/review-status | Return AI status without exposing unauthorized data | Hicham |
-| GET /submissions/{id}/ai-report | Return authorized validated report | Hicham |
+| POST /labs/{id}/workspaces | Start/resume authorized student workspace | **Owner to be assigned** + Mohamed |
+| GET /workspaces/{id}/files | List/read permitted project files | **Owner to be assigned** + Mohamed |
+| PUT /workspaces/{id}/files | Save permitted files | **Owner to be assigned** + Mohamed |
+| WSS /workspaces/{id}/terminal | Authenticated terminal session | **Owner to be assigned** + Mohamed, Jamal review |
+| POST /workspaces/{id}/runs | Request supported captured action | Mohamed + **Owner to be assigned** |
+| POST /labs/{id}/submissions | Freeze and save a submission | **Owner to be assigned** |
+| GET /submissions/{id}/review-status | Return AI status without exposing unauthorized data | **Owner to be assigned** |
+| GET /submissions/{id}/ai-report | Return authorized validated report | **Owner to be assigned** |
 
 All user-facing endpoints enforce ownership and roles. A caller cannot pick another student's files merely by changing an ID. Internal service requests also need a defined trust/authentication boundary.
 
@@ -684,15 +684,16 @@ Do not create a vector database or empty retrieval service now. Reserve a clear 
 
 | Person | Concrete responsibility | Review/support |
 |---|---|---|
-| Mohamed — PO, DevOps, AI | Acceptance criteria; template infrastructure; workspace lifecycle; execution capture; model integration and streaming; operational metrics | Jamal reviews isolation and AI security; Hicham reviews integration |
-| Jamal — Tech Lead, Security, AI | Architecture decisions; shared permissions; generation/review prompt design with Mohamed; schema checks and AI security cases | Mohamed reviews AI behavior; backend owners integrate controls |
-| Hicham — Backend | Submission versioning; snapshot coordination; evidence references; durable review workflow; report persistence/access | Mohamed provides runtime/storage hooks; Jamal reviews authorization |
-| Adam — PM, Fullstack 1 | Student instructions/editor/terminal UI; save state; submit/explanation/status screens; delivery coordination | Hicham/Mohamed support APIs; Salah reviews shared UI patterns |
+| Mohamed — PO, DevOps, AI | Acceptance criteria; template infrastructure; workspace lifecycle; execution capture; model integration and streaming; operational metrics | Simo reviews AI behavior; **Owner to be assigned** reviews integration |
+| Simo — AI | LLM integration and RAG; generation/review prompt design; schema checks and AI quality cases | Mohamed reviews AI behavior; backend owners integrate controls |
+| Jamal — Tech Lead, Security, Backend | Architecture decisions; shared permissions; AI I/O protection and shared rate limits; schema checks | Mohamed reviews AI behavior; backend owners integrate controls |
+| **Owner to be assigned — Backend** | Submission versioning; snapshot coordination; evidence references; durable review workflow; report persistence/access | Mohamed provides runtime/storage hooks; Jamal reviews authorization |
+| Adam — PM, Fullstack 1 | Student instructions/editor/terminal UI; save state; submit/explanation/status screens; delivery coordination | **Owner to be assigned**/Mohamed support APIs; Salah reviews shared UI patterns |
 | Salah — Fullstack 2 | Company form, streaming preview, lab editor/publication, candidate code/evidence/report view | AI team supplies contracts; Jamal reviews organization permissions |
 
 Every implementation card has one primary owner, even when a row lists collaborators. Split shared rows into separate cards before starting. Nobody is responsible for every API just because their title is Backend.
 
-Mohamed and Jamal both need to understand model requests and evidence limitations. Jamal also has leadership/security work; Mohamed has infrastructure/PO work; Adam has PM work. Estimate those responsibilities when balancing capacity.
+Mohamed and Simo both need to understand model requests and evidence limitations. Simo owns AI implementation; Mohamed has infrastructure/PO work; Jamal has leadership/security work; Adam has PM work. Estimate those responsibilities when balancing capacity.
 
 ## 18. Implementation roadmap and Trello cards
 
@@ -708,14 +709,14 @@ Mohamed and Jamal both need to understand model requests and evidence limitation
 - Keep credentials outside Git and print no secrets.
 - Explain every input field and observe returned usage/errors.
 
-**A3. Review a manually prepared submission — Jamal; reviewer Mohamed**
+**A3. Review a manually prepared submission — Simo; reviewer Mohamed**
 - Provide a small source file, lab, rubric, explanation, and optional run evidence.
 - Produce a report with evidence references and unknown states.
 - This proves the core AI feature before workspace complexity is introduced.
 
 ### Milestone B — complete lab generation
 
-**B1. Shared schemas and prompts — Jamal; reviewer Mohamed**
+**B1. Shared schemas and prompts — Simo; reviewer Mohamed**
 - Version the draft/report schemas and prompts.
 - Validate required fields and unsupported-template handling.
 
@@ -732,37 +733,37 @@ Mohamed and Jamal both need to understand model requests and evidence limitation
 - Start, stop, expire, and clean up one supported workspace.
 - Demonstrate storage survives the agreed restart lifecycle.
 
-**C2. Workspace session/file APIs — Hicham; reviewer Jamal**
+**C2. Workspace session/file APIs — Owner to be assigned; reviewer Jamal**
 - Enforce access; bind sessions to the correct lab version.
 - Reject invalid paths and unauthorized requests.
 
 **C3. Student workspace interface — Adam; reviewer Salah**
 - Read instructions, edit/save, use terminal, reconnect, and understand save status.
 
-**C4. Managed execution capture — Mohamed; reviewer Hicham**
+**C4. Managed execution capture — Mohamed; reviewer Owner to be assigned**
 - Capture supported build/run action, output, exit status, timeout, and snapshot association.
 - No automated per-scenario correctness tests are required.
 
 ### Milestone D — submission to report
 
-**D1. Immutable submission/versioning — Hicham; reviewer Mohamed**
+**D1. Immutable submission/versioning — Owner to be assigned; reviewer Mohamed**
 - Freeze consistent files; save evidence manifest; implement idempotency and deadline checks.
 
-**D2. Review worker — Hicham; reviewer Jamal**
+**D2. Review worker — Owner to be assigned; reviewer Jamal**
 - Process durable jobs, call the AI adapter, store reports, recover failures.
 
-**D3. AI review implementation — Jamal; reviewer Mohamed**
+**D3. AI review implementation — Simo; reviewer Mohamed**
 - Enforce report schema, preserve unknowns, check references, and distinguish evidence types.
 
 **D4. Company report UI — Salah; reviewer Adam**
 - Show code/evidence next to findings, report limits, submission version, and human decision actions.
 
-**D5. Student submission UI — Adam; reviewer Hicham**
+**D5. Student submission UI — Adam; reviewer Owner to be assigned**
 - Collect explanation, confirm saved version, show pending/failed status without losing work.
 
 ### Milestone E — quality and evaluation readiness
 
-**E1. AI quality cases — Mohamed and Jamal, split cases into owned cards**
+**E1. AI quality cases — Mohamed and Simo, split cases into owned cards**
 - Run the agreed cases in section 19 and record disagreements.
 
 **E2. Operational checks — Mohamed; reviewer Jamal**
@@ -829,7 +830,7 @@ The workspace, editor, terminal, snapshots, and execution logs do not automatica
 
 Document modules, contributions, architecture, setup, limitations, and use of AI in the English README as required by the subject.
 
-## 22. Preparing for RAG without implementing it now
+## 22. Preparing for RAG implementation
 
 Keep the AI request builder able to accept optional context passages with source IDs. Later a retrieval component can supply them for interview preparation.
 
@@ -840,7 +841,7 @@ Do now:
 - Version output schemas and preserve evidence/source IDs.
 - Keep authorization near data access.
 
-Do later:
+Do later (planned RAG deliverable):
 - Curate documents and establish permissions.
 - Build parsing/chunking/embedding/indexing.
 - Implement retrieval, deletion/re-indexing, and retrieval evaluation.
@@ -854,16 +855,16 @@ Do not add vector infrastructure merely as an empty placeholder.
 |---|---|---|
 | First lab template | One small supported language/runtime; C++ console example is illustrative | Jamal with team |
 | AI provider/model | One hosted provider selected using sample quality, structured output, streaming, cost, and data policy | Mohamed + Jamal |
-| AI implementation language | Match backend initially, or explicitly justify a Python service | Jamal with Mohamed/Hicham |
+| AI implementation language | Match backend initially, or explicitly justify a Python service | Jamal with Mohamed/**Owner to be assigned** |
 | Numeric score | Detailed statuses first; optional advisory score with unknown handling | Mohamed as PO with company-flow owners |
 | Company-lab report visibility | Company report initially; student feedback policy explicitly agreed | Mohamed |
-| Evidence capture | Final code, explanation, selected checkpoints, managed runs; transcript optional | Mohamed + Jamal + Hicham |
+| Evidence capture | Final code, explanation, selected checkpoints, managed runs; transcript optional | Mohamed + Jamal + **Owner to be assigned** |
 | Retention and provider data handling | Written policy before external student use | Team, coordinated by Jamal/Mohamed |
 | Workspace isolation | Validated design appropriate to deployment, separate from trusted application | Mohamed + Jamal |
 | Concurrent workspace and request limits | Measure first prototype and set explicit limits | Mohamed + Jamal |
 | Publication review | Human checks examples, requirements, feasibility, and rubric | Company, with team support during pilot |
 
-## 24. First practical exercise for Mohamed and Jamal
+## 24. First practical exercise for Mohamed and Simo
 
 Do this together before integrating editor or terminal:
 
@@ -888,7 +889,7 @@ Completion means both developers can explain the request, response, failure mode
 4. The workspace opens with instructions, starter files, editor, and terminal.
 5. The student saves code and performs one captured build/run.
 6. The student explains the approach and submits.
-7. Hicham's workflow stores a fixed version and queues a review automatically.
+7. **Owner to be assigned**'s workflow stores a fixed version and queues a review automatically.
 8. The AI module analyzes only the authorized evidence package and returns a validated report.
 9. Salah opens the report beside the submitted source and captured results.
 10. The recruiter decides whether to send an invitation or start a conversation.

@@ -1,0 +1,12 @@
+
+FROM node:20-alpine
+
+RUN  apk add --no-cache\ 
+     nodejs npm\
+     npm create-vite@latest 
+
+WORKDIR /app
+
+EXPOSE 3000
+
+

@@ -53,7 +53,7 @@ Direct pushes to `dev` and `main` are blocked by branch protection rules. All co
 1.  **Draft Early:** Open a Draft PR as soon as you push your first commit. This lets the team know what you are working on.
 2.  **Keep it Small:** Do not combine multiple unrelated features in one PR. 
 3.  **Cross-Role Reviews:** Require at least **one approving review** from a teammate before merging. 
-     *   *Example:* If Adam modifies the student profile UI, Hicham should review the data integration, or Jamal should review the access controls.
+      *   *Example:* If Adam modifies the student profile UI, **Owner to be assigned** should review the data integration, or Jamal should review the access controls.
 4.  **Resolve Conflicts Locally:** If your branch is out of date with `dev`, you must pull `dev` into your feature branch and resolve conflicts locally before merging.
 
 ---

@@ -143,7 +143,7 @@ Implement:
 
 We should demonstrate restoring backed-up data. A health endpoint alone does not cover the module.
 
-**14. Optional RAG system — +2 points**
+**14. RAG system — +2 points**
 📍 §IV.4 — page 15
 
 Build a preparation assistant where students ask technical questions and receive answers grounded in retrieved documents.
@@ -157,7 +157,7 @@ We need:
 
 We also plan source references and private-document access controls. One README prototype is a starting point, not our complete module.
 
-**Decision: implement the LLM interface first; add RAG only if time remains.**
+**Decision: implement the LLM interface first; RAG is a planned deliverable implemented after LLM integration.**
 
 🧮 **Calculation**
 
