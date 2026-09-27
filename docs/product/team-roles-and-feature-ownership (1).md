@@ -10,11 +10,11 @@
 
 | Member | Confirmed role | Primary responsibility | Coordination responsibility |
 |---|---|---|---|
-| Mohamed | Product Owner, DevOps developer, AI partner | Product priorities and acceptance; workspace infrastructure; deployment and monitoring; AI integration and streaming with Jamal | Works with Jamal on AI behavior, prompts, schemas, and quality; accepts user-visible behavior |
-| Jamal | Technical Lead, Security developer, AI partner | Technical architecture and critical reviews; authentication, authorization, administration, and file security; AI protection and quality with Mohamed | Leads architecture decisions and unblocks technical dependencies |
+| Mohamed | Product Owner, DevOps developer, AI partner | Product priorities and acceptance; workspace infrastructure; deployment and monitoring; AI integration and streaming with Simo | Works with Simo on AI behavior, prompts, schemas, and quality; accepts user-visible behavior |
+| Simo | AI developer | LLM integration and RAG with Mohamed | Works with Mohamed on AI behavior, prompts, schemas, and quality |
+| Jamal | Technical Lead, Security developer, Backend developer | Technical architecture and critical reviews; authentication, authorization, administration, and file security; selected backend work | Leads architecture decisions and unblocks technical dependencies |
 | Adam | Project Manager, Fullstack 1, student experience | Student product flows; student workspace UI; saved progress and submission status; preparation progress | Coordinates delivery, dates, meetings, and blockers; does not set product priorities alone |
 | Salah | Fullstack 2, company experience and public home | Company lab generation and publication UI; candidate review UI; company features; public home; company chat; complete hiring analytics frontend/backend | Coordinates company-side contracts with shared services |
-| Hicham | Backend developer, shared business workflows | Submission snapshots and jobs; evidence metadata; durable workflows; reviews, invitations, notifications, and messaging | Builds reusable automation rather than manually handling every scenario or submission |
 
 ### Governance boundaries
 
@@ -22,7 +22,7 @@
 - **Adam coordinates delivery and blockers.** He maintains milestones, dependencies, meetings, and blockers and helps the team make delivery decisions. He does not replace Mohamed's product authority.
 - **Jamal leads technical architecture and critical reviews.** He coordinates architecture, cross-cutting interfaces, security reviews, and high-risk technical decisions.
 - **Everyone implements, tests, reviews, and documents their work.** Product ownership does not remove engineering work, and technical leadership does not remove implementation work.
-- **AI work is shared by Mohamed and Jamal.** Mohamed owns infrastructure and integration; Jamal owns security, schemas, review logic, and quality evaluation. Neither is presented as the sole AI owner.
+- **AI work is shared by Mohamed and Simo.** Mohamed owns infrastructure and integration; Simo owns LLM integration and RAG implementation. Neither is presented as the sole AI owner.
 
 ## 2. Shared domain boundaries
 
@@ -30,16 +30,16 @@ The team must use the same terms across interfaces, storage, reports, and review
 
 | Term | Confirmed meaning | Main owners |
 |---|---|---|
-| **Lab version** | Immutable published instructions, requirements, examples, deliverables, rubric, and template reference | Salah, Hicham; Jamal reviews schemas and feasibility |
+| **Lab version** | Immutable published instructions, requirements, examples, deliverables, rubric, and template reference | Salah, **Owner to be assigned**; Jamal reviews schemas and feasibility |
 | **Workspace template** | One supported environment definition with its runtime, tools, supported actions, resource policy, and version | Mohamed, Jamal |
-| **Student workspace** | Authorized in-platform environment for instructions, files, editor, terminal, save/resume state, supported build/run actions, and submission | Mohamed, Adam, Hicham, Jamal |
-| **Submission snapshot** | Fixed source/configuration set linked to one student, one lab version, one rubric, and one submission version | Hicham |
-| **Execution evidence** | Supported build/run metadata and captured output linked to the exact code version actually run | Mohamed, Hicham |
-| **Evidence manifest** | Record of included, missing, truncated, and omitted evidence plus capture limitations | Hicham, Jamal |
-| **AI review job** | Durable background request tied to one immutable submission snapshot | Hicham; Mohamed and Jamal own AI behavior |
-| **AI report** | Advisory, requirement-based interpretation of code and available evidence; never a certified test result or hiring decision | Mohamed, Jamal; Hicham stores and protects it |
-| **Company review** | Human workflow: Submitted → Under review → Reviewed | Hicham, Salah |
-| **Conversation** | Company-initiated text chat, separate from a formal interview invitation | Hicham, Adam, Salah, Jamal |
+| **Student workspace** | Authorized in-platform environment for instructions, files, editor, terminal, save/resume state, supported build/run actions, and submission | Mohamed, Adam, **Owner to be assigned**, Jamal |
+| **Submission snapshot** | Fixed source/configuration set linked to one student, one lab version, one rubric, and one submission version | **Owner to be assigned** |
+| **Execution evidence** | Supported build/run metadata and captured output linked to the exact code version actually run | Mohamed, **Owner to be assigned** |
+| **Evidence manifest** | Record of included, missing, truncated, and omitted evidence plus capture limitations | **Owner to be assigned**, Jamal |
+| **AI review job** | Durable background request tied to one immutable submission snapshot | **Owner to be assigned**; Mohamed and Simo own AI behavior |
+| **AI report** | Advisory, requirement-based interpretation of code and available evidence; never a certified test result or hiring decision | Mohamed, Simo; **Owner to be assigned** stores and protects it |
+| **Company review** | Human workflow: Submitted → Under review → Reviewed | **Owner to be assigned**, Salah |
+| **Conversation** | Company-initiated text chat, separate from a formal interview invitation | **Owner to be assigned**, Adam, Salah, Jamal |
 
 ## 3. Individual ownership
 
@@ -61,15 +61,15 @@ The team must use the same terms across interfaces, storage, reports, and review
 
 #### AI integration
 
-- Implement the server-side LLM adapter, streaming path, timeouts, usage tracking, and operational failure handling with Jamal.
+- Implement the server-side LLM adapter, streaming path, timeouts, usage tracking, and operational failure handling with Simo.
 - Integrate generation and review jobs without making retrieval infrastructure a first-release dependency.
-- Design the request-builder extension point for optional RAG context, but do not build an empty vector system now.
+- Design the request-builder extension point for RAG context, but do not build an empty vector system now.
 
 #### Boundary
 
-Mohamed owns product acceptance and the infrastructure/integration side of AI. Jamal owns AI security, prompt/schema logic, and quality review. Hicham owns durable submission and report workflows. Neither Mohamed nor Jamal alone owns the complete AI feature.
+Mohamed owns product acceptance and the infrastructure/integration side of AI. Simo owns LLM integration and RAG implementation. **Backend submission and report workflows: Owner to be assigned**. Neither Mohamed nor Simo alone owns the complete AI feature.
 
-### 3.2 Jamal — Technical Lead, Security developer, and AI partner
+### 3.2 Jamal — Technical Lead, Security developer, and Backend developer
 
 #### Technical leadership
 
@@ -88,12 +88,12 @@ Mohamed owns product acceptance and the infrastructure/integration side of AI. J
 
 - Review workspace isolation and authorized access with Mohamed.
 - Review AI input/output protection, prompt-injection resistance, schema validation, shared rate limits, and provider-data handling.
-- Define and evaluate generation prompts, review prompts, output schemas, review logic, and AI quality cases with Mohamed.
+- Define and evaluate generation prompts, review prompts, output schemas, review logic, and AI quality cases with Mohamed and Simo.
 - Ensure source files, logs, filenames, and student text are treated as untrusted input and cannot change application instructions.
 
 #### Boundary
 
-Jamal leads and reviews; he does not become the manual reviewer for every lab. Hicham implements reusable jobs and storage. The company remains responsible for human decisions.
+Jamal leads and reviews; he does not become the manual reviewer for every lab. **Backend reusable jobs and storage: Owner to be assigned**. The company remains responsible for human decisions.
 
 ### 3.3 Adam — Project Manager, Fullstack 1, and student experience
 
@@ -128,14 +128,14 @@ Adam integrates existing editor and terminal components and platform APIs. He do
 
 #### Analytics ownership
 
-- Own the complete hiring analytics feature: event definitions with Hicham, backend queries and APIs, frontend calculations/visualizations, filters, live updates, exports, and access rules.
+- Own the complete hiring analytics feature: event definitions with **Owner to be assigned**, backend queries and APIs, frontend calculations/visualizations, filters, live updates, exports, and access rules.
 - Analytics must be organization-scoped and must not rank candidates or turn activity metrics into competence scores.
 
 #### Boundary
 
 Salah owns the company-facing experience and complete analytics feature. AI output remains advisory, and only an authorized company member makes contact or invitation decisions.
 
-### 3.5 Hicham — Backend developer and shared workflows
+### 3.5 **Owner to be assigned — Backend developer and shared workflows**
 
 #### Workspace and submission services
 
@@ -153,7 +153,7 @@ Salah owns the company-facing experience and complete analytics feature. AI outp
 
 #### Automation boundary
 
-Hicham builds reusable automation. He does not manually evaluate every lab, manually inspect every AI result, or implement scenario-specific hidden tests for the first release. New scenarios should use the common submission and review workflow.
+**Owner to be assigned** builds reusable automation. They do not manually evaluate every lab, manually inspect every AI result, or implement scenario-specific hidden tests for the first release. New scenarios should use the common submission and review workflow.
 
 ## 4. Company-lab journey and ownership
 
@@ -174,18 +174,18 @@ flowchart TD
 | Stage | Primary owner | Required contribution | Reviewer/dependency |
 |---|---|---|---|
 | Product acceptance and scope | Mohamed | Acceptance criteria, priorities, confirmed/open status | Whole team |
-| AI generation service | Mohamed | Provider integration, streaming, timeouts, usage and failure handling | Jamal; Hicham for API/job integration |
-| Generation prompts and schemas | Jamal | Safe instructions, structured draft, rubric validation, quality cases | Mohamed |
-| Company generation and lab editor | Salah | Requirements form, streamed preview, edits, approval, publication | Adam for shared UI patterns; Hicham for versions; Jamal for permissions |
-| Workspace template and lifecycle | Mohamed | Provisioning, persistence infrastructure, limits, cleanup, supported actions | Jamal; Hicham for APIs |
-| Workspace session and file APIs | Hicham | Authorization, lab-version binding, file paths, resume state | Jamal; Mohamed |
-| Student workspace UI | Adam | Editor/terminal integration, save/connection state, explanations, submission | Salah; Hicham and Mohamed |
-| Submission snapshot | Hicham | Fixed version, evidence manifest, idempotency, deadline checks | Mohamed; Jamal |
-| Execution capture | Mohamed | Managed command metadata, output, exit/timeout, code-version association | Hicham; Jamal |
-| Durable AI job and report storage | Hicham | Queue/retry/recovery, status, authorized report access | Jamal; Mohamed |
-| AI review logic | Jamal | Advisory report, evidence references, limitations, quality evaluation | Mohamed; Hicham |
-| Candidate review UI | Salah | Code/evidence/report side by side and human decision actions | Adam; Hicham; Jamal |
-| Contact or invitation | Salah | Company action and UI | Hicham; Adam for student inbox; Jamal for permissions |
+| AI generation service | Mohamed | Provider integration, streaming, timeouts, usage and failure handling | Simo; **Owner to be assigned** for API/job integration |
+| Generation prompts and schemas | Simo | Safe instructions, structured draft, rubric validation, quality cases | Mohamed |
+| Company generation and lab editor | Salah | Requirements form, streamed preview, edits, approval, publication | Adam for shared UI patterns; **Owner to be assigned** for versions; Jamal for permissions |
+| Workspace template and lifecycle | Mohamed | Provisioning, persistence infrastructure, limits, cleanup, supported actions | Jamal; **Owner to be assigned** for APIs |
+| Workspace session and file APIs | **Owner to be assigned** | Authorization, lab-version binding, file paths, resume state | Jamal; Mohamed |
+| Student workspace UI | Adam | Editor/terminal integration, save/connection state, explanations, submission | Salah; **Owner to be assigned** and Mohamed |
+| Submission snapshot | **Owner to be assigned** | Fixed version, evidence manifest, idempotency, deadline checks | Mohamed; Jamal |
+| Execution capture | Mohamed | Managed command metadata, output, exit/timeout, code-version association | **Owner to be assigned**; Jamal |
+| Durable AI job and report storage | **Owner to be assigned** | Queue/retry/recovery, status, authorized report access | Jamal; Mohamed |
+| AI review logic | Simo | Advisory report, evidence references, limitations, quality evaluation | Mohamed; **Owner to be assigned** |
+| Candidate review UI | Salah | Code/evidence/report side by side and human decision actions | Adam; **Owner to be assigned**; Jamal |
+| Contact or invitation | Salah | Company action and UI | **Owner to be assigned**; Adam for student inbox; Jamal for permissions |
 
 Every stage must be split into cards with one primary owner. A broad card such as “build AI” is not ready for implementation.
 
@@ -237,7 +237,7 @@ A C++/Bubble Sort example illustrates a simple exercise only. It is not a confir
 - A complete LLM interface is committed.
 - Company lab generation and submission review are the first AI priorities.
 - Interview practice and private practice feedback remain in the product.
-- RAG is optional later, only if time remains. The request builder should expose an extension point for retrieved context without making retrieval infrastructure a release dependency.
+- **RAG is a planned deliverable** (document ingestion, text extraction, chunking, embeddings, retrieval, and grounded answers). The request builder should expose an extension point for retrieved context. RAG implementation follows LLM integration; both are in scope.
 
 ### 6.2 Lab generation contract
 
@@ -316,10 +316,10 @@ AI completion does not complete company review. A failed AI request does not los
 
 | Deliverable | Primary owner | Reviewer | Dependency |
 |---|---|---|---|
-| Conversation model, authorization, history, unread, and live workflow | Hicham | Jamal | Student, lab, company, and organization relations |
+| Conversation model, authorization, history, unread, and live workflow | **Owner to be assigned** | Jamal | Student, lab, company, and organization relations |
 | Student inbox and reply states | Adam | Salah | Agreed messaging contract |
 | Company contact action and inbox | Salah | Adam | Candidate-review relationship and permissions |
-| Cross-account, removed-member, and cross-company tests | Jamal | Hicham | Completed chat workflow |
+| Cross-account, removed-member, and cross-company tests | Jamal | **Owner to be assigned** | Completed chat workflow |
 
 The student cannot initiate an unsolicited company conversation. A failed send remains visible and retryable; reconnecting must not silently duplicate messages or conversations.
 
@@ -327,20 +327,20 @@ The student cannot initiate an unsolicited company conversation. A failed send r
 
 | Feature | Interface owner | Main service/rule owner | Required reviewers/support |
 |---|---|---|---|
-| Student authentication | Adam | Jamal | Hicham for data relationships |
-| Company authentication | Salah | Jamal | Hicham for data relationships |
-| Student profile | Adam | Adam | Jamal for access; Hicham for shared model |
+| Student authentication | Adam | Jamal | **Owner to be assigned** for data relationships |
+| Company authentication | Salah | Jamal | **Owner to be assigned** for data relationships |
+| Student profile | Adam | Adam | Jamal for access; **Owner to be assigned** for shared model |
 | Company profile | Salah | Salah | Jamal for verification and files |
 | Company teams | Salah | Salah | Jamal for membership and permissions |
-| Opportunity publication | Salah | Salah | Jamal for publication permission; Hicham for versions |
-| Company lab workspace | Adam | Mohamed and Hicham by layer | Jamal for isolation/access |
-| Company lab submission | Adam | Hicham | Mohamed for snapshot hooks; Jamal for evidence access |
-| AI lab generation | Salah | Mohamed and Jamal by layer | Hicham for integration |
-| Candidate review | Salah | Hicham | Jamal for access; Mohamed for acceptance |
-| Invitations | Adam and Salah on their side | Hicham | Jamal for permissions |
-| Notifications | Adam and Salah on their side | Hicham | Mohamed if delivery infrastructure is needed |
-| Hiring analytics | Salah | Salah | Hicham for agreed events; Jamal for company isolation |
-| Company–student chat | Adam and Salah on their side | Hicham | Jamal for access; Mohamed for live deployment |
+| Opportunity publication | Salah | Salah | Jamal for publication permission; **Owner to be assigned** for versions |
+| Company lab workspace | Adam | Mohamed and **Owner to be assigned** by layer | Jamal for isolation/access |
+| Company lab submission | Adam | **Owner to be assigned** | Mohamed for snapshot hooks; Jamal for evidence access |
+| AI lab generation | Salah | Mohamed and Simo by layer | **Owner to be assigned** for integration |
+| Candidate review | Salah | **Owner to be assigned** | Jamal for access; Mohamed for acceptance |
+| Invitations | Adam and Salah on their side | **Owner to be assigned** | Jamal for permissions |
+| Notifications | Adam and Salah on their side | **Owner to be assigned** | Mohamed if delivery infrastructure is needed |
+| Hiring analytics | Salah | Salah | **Owner to be assigned** for agreed events; Jamal for company isolation |
+| Company–student chat | Adam and Salah on their side | **Owner to be assigned** | Jamal for access; Mohamed for live deployment |
 | Admin features | Jamal | Jamal | Mohamed for product rules |
 | Monitoring/logging/recovery | Mohamed | Mohamed | Everyone instruments and documents their services |
 
@@ -351,20 +351,20 @@ The student cannot initiate an unsolicited company conversation. A failed send r
 | Card | Primary owner | Reviewer(s) | Dependency |
 |---|---|---|---|
 | Account/profile acceptance criteria | Mohamed | Whole team | Confirmed product scope |
-| Account/profile/organization data model | Hicham | Jamal, Adam, Salah | Acceptance criteria |
-| Shared registration and sessions | Jamal | Hicham | Agreed data model |
-| Password recovery | Jamal | Hicham | Authentication contract |
-| Student registration/profile screens | Adam | Jamal, Hicham | Authentication and profile model |
-| Company registration/profile screens | Salah | Jamal, Hicham | Authentication and profile model |
+| Account/profile/organization data model | **Owner to be assigned** | Jamal, Adam, Salah | Acceptance criteria |
+| Shared registration and sessions | Jamal | **Owner to be assigned** | Agreed data model |
+| Password recovery | Jamal | **Owner to be assigned** | Authentication contract |
+| Student registration/profile screens | Adam | Jamal, **Owner to be assigned** | Authentication and profile model |
+| Company registration/profile screens | Salah | Jamal, **Owner to be assigned** | Authentication and profile model |
 | Admin company verification | Jamal | Salah, Mohamed | Company model and product rules |
-| Account/profile integration walkthrough | Hicham | Adam, Salah, Jamal | Feature branches integrated |
+| Account/profile integration walkthrough | **Owner to be assigned** | Adam, Salah, Jamal | Feature branches integrated |
 | Milestone acceptance | Mohamed | Whole team | Testable user behavior |
 
 OAuth remains an agreed feature and can be scheduled after basic accounts if capacity requires it. This is sequencing, not removal.
 
 ### Parallel AI prototyping
 
-After the team agrees the initial LLM input/output contracts and evidence boundaries, Mohamed and Jamal may prototype generation and submission review in parallel with Accounts and Profiles. The prototype should use a manually prepared submission package before workspace complexity is introduced.
+After the team agrees the initial LLM input/output contracts and evidence boundaries, Mohamed and Simo may prototype generation and submission review in parallel with Accounts and Profiles. The prototype should use a manually prepared submission package before workspace complexity is introduced.
 
 ### Later delivery sequence
 
@@ -386,59 +386,59 @@ Each row is independently estimable. A listed collaborator is not a co-owner unl
 | Card | Primary owner | Reviewer(s) | Dependencies and done condition |
 |---|---|---|---|
 | Define one sample lab-generation request and expected draft | Mohamed | Jamal | Confirmed fields; manually reviewed example stored |
-| Define one manual submission evidence package and expected report | Jamal | Mohamed, Hicham | Rubric, files, explanations, evidence manifest, limitations |
+| Define one manual submission evidence package and expected report | Simo | Mohamed, **Owner to be assigned** | Rubric, files, explanations, evidence manifest, limitations |
 | Implement one server-side generation request | Mohamed | Jamal | Provider credentials kept outside code/workspace; input/output logged safely |
-| Implement one manual AI review request | Jamal | Mohamed, Hicham | Advisory report cites supplied evidence and preserves unknowns |
-| Version prompts, schemas, and quality cases | Jamal | Mohamed | Invalid structure, prompt injection, and missing evidence covered |
+| Implement one manual AI review request | Simo | Mohamed, **Owner to be assigned** | Advisory report cites supplied evidence and preserves unknowns |
+| Version prompts, schemas, and quality cases | Simo | Mohamed | Invalid structure, prompt injection, and missing evidence covered |
 
 ### Generation and publication
 
 | Card | Primary owner | Reviewer(s) | Dependencies and done condition |
 |---|---|---|---|
 | Define and build one workspace template contract | Mohamed | Jamal | Supported actions and policy explicit; stack not assumed |
-| Implement streamed lab generation service | Mohamed | Jamal, Hicham | Bounded request, validated complete result, recoverable failure |
+| Implement streamed lab generation service | Mohamed | Jamal, **Owner to be assigned** | Bounded request, validated complete result, recoverable failure |
 | Build company requirements form and streamed preview | Salah | Adam, Jamal | Partial output cannot be approved or published |
-| Build lab editor, rubric approval, and versioned publication | Salah | Hicham, Jamal | Pending company can draft; verified company can publish approved version with deadline |
-| Persist lab/rubric versions and publication records | Hicham | Salah, Jamal | Existing submissions retain their original version and rubric |
+| Build lab editor, rubric approval, and versioned publication | Salah | **Owner to be assigned**, Jamal | Pending company can draft; verified company can publish approved version with deadline |
+| Persist lab/rubric versions and publication records | **Owner to be assigned** | Salah, Jamal | Existing submissions retain their original version and rubric |
 
 ### Workspace and evidence
 
 | Card | Primary owner | Reviewer(s) | Dependencies and done condition |
 |---|---|---|---|
 | Provision, stop, expire, resume, and clean up one template | Mohamed | Jamal | Storage survives the agreed lifecycle; limits and cleanup tested |
-| Implement authorized workspace session/file APIs | Hicham | Jamal, Mohamed | Student/lab ownership and path checks enforced |
-| Integrate authenticated terminal access | Hicham | Jamal, Mohamed | Reconnect and unauthorized-access cases tested |
-| Build student workspace UI | Adam | Salah, Hicham | Instructions, file navigation, editor, terminal, save/connection state |
-| Add supported build/run capture | Mohamed | Hicham, Jamal | Output linked to exact code version; capture limits visible |
-| Freeze submission snapshots and evidence manifests | Hicham | Mohamed, Jamal | Idempotent, deadline-aware, immutable, correctly associated |
+| Implement authorized workspace session/file APIs | **Owner to be assigned** | Jamal, Mohamed | Student/lab ownership and path checks enforced |
+| Integrate authenticated terminal access | **Owner to be assigned** | Jamal, Mohamed | Reconnect and unauthorized-access cases tested |
+| Build student workspace UI | Adam | Salah, **Owner to be assigned** | Instructions, file navigation, editor, terminal, save/connection state |
+| Add supported build/run capture | Mohamed | **Owner to be assigned**, Jamal | Output linked to exact code version; capture limits visible |
+| Freeze submission snapshots and evidence manifests | **Owner to be assigned** | Mohamed, Jamal | Idempotent, deadline-aware, immutable, correctly associated |
 
 ### AI review and human review
 
 | Card | Primary owner | Reviewer(s) | Dependencies and done condition |
 |---|---|---|---|
-| Implement durable review jobs and bounded retries | Hicham | Jamal, Mohamed | Submission survives failure; no duplicate final report |
-| Implement AI review logic and report validation | Jamal | Mohamed, Hicham | Required fields, evidence references, unknowns, and limitations validated |
-| Build student submission/processing status UI | Adam | Hicham | AI status and company-review status remain separate |
-| Build candidate code/evidence/report UI | Salah | Adam, Hicham, Jamal | Human decision actions are explicit; report limitations visible |
-| Enforce AI data, rate, and retention policies | Jamal | Mohamed, Hicham | Policies written before external student use and covered by tests |
+| Implement durable review jobs and bounded retries | **Owner to be assigned** | Jamal, Mohamed | Submission survives failure; no duplicate final report |
+| Implement AI review logic and report validation | Simo | Mohamed, **Owner to be assigned** | Required fields, evidence references, unknowns, and limitations validated |
+| Build student submission/processing status UI | Adam | **Owner to be assigned** | AI status and company-review status remain separate |
+| Build candidate code/evidence/report UI | Salah | Adam, **Owner to be assigned**, Jamal | Human decision actions are explicit; report limitations visible |
+| Enforce AI data, rate, and retention policies | Jamal | Mohamed, **Owner to be assigned** | Policies written before external student use and covered by tests |
 
 ### Chat
 
 | Card | Primary owner | Reviewer(s) | Dependencies and done condition |
 |---|---|---|---|
-| Implement conversation model, history, unread, and authorization | Hicham | Jamal | Confirmed eligibility/grouping policy encoded |
+| Implement conversation model, history, unread, and authorization | **Owner to be assigned** | Jamal | Confirmed eligibility/grouping policy encoded |
 | Build student chat UI | Adam | Salah | Persistent history, live updates, reconnect, retry |
 | Build company contact action and inbox | Salah | Adam | Contact remains separate from invitation |
-| Test removed-member and cross-company isolation | Jamal | Hicham, Adam, Salah | Existing and future access obey current membership |
+| Test removed-member and cross-company isolation | Jamal | **Owner to be assigned**, Adam, Salah | Existing and future access obey current membership |
 
 ## 11. Capacity, fairness, and card rules
 
 1. Every card has one primary owner, named reviewers, acceptance criteria, dependencies, and a PR link.
 2. The implementer estimates Small / Medium / Large. Split Large cards before moving them to Ready.
 3. Feature count and potential module points do not measure workload.
-4. Account explicitly for Mohamed's PO work, Jamal's technical leadership/security/AI work, and Adam's PM work when comparing capacity.
-5. Workspace infrastructure, AI generation, and AI review are shared boundaries. Split them into separate cards rather than assigning one person an unbounded “AI” task.
-6. Hicham's reusable automation must not turn into manual per-submission evaluation. Salah's complete analytics ownership must not hide unestimated backend work; split and estimate its frontend, event, query, and export deliverables.
+4. Account explicitly for Mohamed's PO work, Jamal's technical leadership/security/backend work, Adam's PM work, and Simo's AI work when comparing capacity.
+5. Workspace infrastructure, AI generation, and AI review are shared boundaries. Split them into separate cards rather than assigning one person an unbounded "AI" task.
+6. **Backend reusable automation (Owner to be assigned) must not turn into manual per-submission evaluation. Salah's complete analytics ownership must not hide unestimated backend work; split and estimate its frontend, event, query, and export deliverables.**
 7. If one area is too large, move a specific deliverable by team agreement and record its new owner. Do not silently add invisible work.
 8. A task is Done only after agreed tests, peer review, integration, documentation, and PO acceptance for user-visible behavior.
 9. Update ownership after the first milestone using actual effort, blockers, and review load. This document does not claim equal workload.
@@ -463,7 +463,7 @@ The feature map contains the detailed requirements. These values are conditional
 | Advanced analytics | 2 | Interactive visualizations, live updates, exports, and date/filter queries |
 | Real-time features through fully implemented live chat | 2 | Persistent messages, unread state, live delivery, reconnect/retry behavior, and authorization |
 | **Total without RAG** | **21** | **Conditional planned inventory, not completed or awarded points** |
-| Optional RAG | +2 | Substantial curated dataset, user Q&A, retrieval, and response generation; planned total becomes 23 |
+| RAG | +2 | Document ingestion, text extraction, chunking, embeddings, retrieval, and grounded answers; planned total becomes 23 |
 
 The following do not add automatic points:
 - Company generation, interview practice, and submission review are uses of **one** LLM interface module, not separate modules.
@@ -488,8 +488,8 @@ Each module must satisfy all stated subject requirements. Partial implementation
 - Submission snapshots, bounded evidence, three explanations, background AI review, and human review are separate related behaviors.
 - Company-lab AI report student visibility is not yet decided; practice feedback is private by default.
 - Company-initiated text chat is included; eligibility and grouping need confirmation.
-- Complete LLM interface is committed; RAG is optional later.
-- The planned mapping is 21 potential points without RAG and 23 with optional RAG, conditional on full requirements.
+- Complete LLM interface is committed; RAG is a planned deliverable (document ingestion, text extraction, chunking, embeddings, retrieval, and grounded answers).
+- The planned mapping is 21 potential points without RAG and 23 with RAG, conditional on full requirements.
 
 ### 13.2 Proposals, not confirmed implementation choices
 
@@ -507,6 +507,6 @@ Each module must satisfy all stated subject requirements. Partial implementation
 - Whether students see company-lab AI reports and whether advisory numbers are shown.
 - Chat eligibility, conversation grouping, and membership-change behavior.
 - Required written company feedback, invitation scheduling/acceptance, notification channels, and search filters.
-- Model/provider selection and optional RAG only after confirmed scope is stable.
+- Model/provider selection and RAG implementation details after confirmed scope is stable.
 
 The team must decide these items explicitly. This ownership document does not choose a stack, model provider, deadline, numeric limit, or unresolved policy on the team's behalf.

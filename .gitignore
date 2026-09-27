@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment - never commit secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Tests
+coverage/
+.nyc_output/
+
+# Runtime / private data
+*.sqlite
+*.sqlite3
+*.db
+backups/
+workspaces/
+submissions/
+evidence/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local infra volumes
+docker-data/
+elasticsearch-data/
+prometheus-data/
+grafana-data/
+
+# IDE / temp
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Docker
+.docker/
+
+# Misc
+*.local
+.vercel
+.netlify
+
+# Keep devops docs but don't commit infra/devops_docs per existing rule
+/infra/devops_docs

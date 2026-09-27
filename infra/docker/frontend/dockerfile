@@ -1,3 +1,18 @@
 
 FROM node:20-alpine
 
+RUN  apk add --no-cache\ 
+     nodejs npm\
+     npm create-vite@latest 
+
+RUN npm install -g npm@latest
+
+WORKDIR /app
+
+EXPOSE 3000
+
+
+
+
+
+

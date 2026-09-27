@@ -2,7 +2,7 @@
 
 **Project:** ft_transcendence — interview preparation and company labs  
 **Date:** 26 September 2026  
-**Audience:** Mohamed, Jamal, Adam, Salah, Hicham  
+**Audience:** Mohamed, Simo, Jamal, Adam, Salah  
 **Status:** proposed repository organization for team agreement. Responsibilities reflect the current decisions; framework-specific files and infrastructure choices remain to be finalized.
 
 This README explains where to write code, who coordinates each part, how shared features connect, and how to avoid duplicate implementations and conflicting changes.
@@ -20,7 +20,7 @@ Use **one shared repository** organized by application and feature. This proposa
 - `infra/`: deployment configuration, environment templates, monitoring, and operational scripts.
 - `docs/`: product decisions, architecture, setup, and operations documentation.
 
-Do not create `fullstack1/`, `fullstack2/`, or folders named after teammates. Adam and Salah both work across `web/` and their feature modules in `api/`. Hicham owns shared workflows, not every backend file.
+Do not create `fullstack1/`, `fullstack2/`, or folders named after teammates. Adam and Salah both work across `web/` and their feature modules in `api/`. **Owner to be assigned** owns shared workflows, not every backend file.
 
 A folder is not automatically a container or microservice. In this proposal, backend modules share one application. The review worker can be a separate process using the same backend code/image. Student code executes outside that trusted application.
 
@@ -28,11 +28,11 @@ A folder is not automatically a container or microservice. In this proposal, bac
 
 | Member | Confirmed roles | Main responsibility |
 |---|---|---|
-| Mohamed | Product Owner, DevOps developer, AI partner | Priorities, acceptance criteria, environments, workspace infrastructure, deployment, monitoring, AI with Jamal |
-| Jamal | Technical Lead, Security developer, AI partner | Architecture, shared identity/permissions, security, AI with Mohamed |
+| Mohamed | Product Owner, DevOps developer, AI partner | Priorities, acceptance criteria, environments, workspace infrastructure, deployment, monitoring, AI with Simo |
+| Simo | AI developer | LLM integration and RAG with Mohamed |
+| Jamal | Technical Lead, Security developer | Architecture, shared identity/permissions, security, selected backend work |
 | Adam | Project Manager, Fullstack 1 | Student experience and relevant APIs; delivery coordination and blockers |
 | Salah | Fullstack 2 | Company experience, public home, organization/opportunity/lab APIs, full hiring analytics |
-| Hicham | Backend developer | Shared data coordination, submissions, human reviews, invitations, notifications, messaging, review-job orchestration |
 
 Ownership means coordinating a deliverable; it does not forbid other contributors. Every implementation card has one primary owner and a reviewer. Account for PO, PM, Technical Lead, and AI collaboration when estimating workload.
 
@@ -152,17 +152,18 @@ Dependency manifests and lockfiles depend on the chosen stack and package manage
 |---|---|---|---|
 | Adam | Student/profile/dashboard; discovery; workspace; submit; preparation; student chat/invitations | `students/`, `preparation/`, opportunity discovery endpoints | Student acceptance flows; PM coordination records |
 | Salah | Public home; company/profile/team; opportunity/lab editor; company review/report/chat; analytics | `companies/`, opportunity management, `labs/`, `analytics/` | Company journeys and API documentation |
-| Hicham | Integration support | `submissions/`, `reviews/`, `invitations/`, `notifications/`, `chat/`, application-side `workspaces/`, worker scheduling and evidence metadata | Shared relationships and interface contracts |
-| Jamal | Admin; shared auth UI coordination with Adam/Salah | `auth/`, `admin/`, `files/`, shared authorization; `ai/` with Mohamed | Technical decisions and security checks |
-| Mohamed | AI/workspace integration support | `ai/` with Jamal; workspace-service lifecycle/runtime/capture | `infra/`, Compose, CI/CD, operations, PO acceptance |
+| **Owner to be assigned** | Integration support | `submissions/`, `reviews/`, `invitations/`, `notifications/`, `chat/`, application-side `workspaces/`, worker scheduling and evidence metadata | Shared relationships and interface contracts |
+| Jamal | Admin; shared auth UI coordination with Adam/Salah | `auth/`, `admin/`, `files/`, shared authorization | Technical decisions and security checks |
+| Mohamed | AI/workspace integration support | `ai/` with Simo; workspace-service lifecycle/runtime/capture | `infra/`, Compose, CI/CD, operations, PO acceptance |
+| Simo |  | `ai/` with Mohamed |  |
 
 ### Shared-folder rules
 
 - `web/features/auth/`: Adam owns student entry forms; Salah company entry forms; shared recovery/auth widgets have one card owner. Jamal owns backend identity behavior.
 - `opportunities/`: Adam owns discovery/search; Salah owns create/edit/publish/close. Agree files, contract, and routes before starting.
-- `web/features/chat/`: share message rendering and connection utilities. Adam owns the student inbox; Salah owns the company inbox. Hicham owns the messaging API and event contract.
-- `web/features/submissions/`: Adam owns submit/status; Salah owns recruiter review/report UI. Hicham owns version/lifecycle rules.
-- `api/modules/ai/`: Mohamed and Jamal split individual cards; do not both independently implement a provider client or prompt system.
+- `web/features/chat/`: share message rendering and connection utilities. Adam owns the student inbox; Salah owns the company inbox. **Owner to be assigned** owns the messaging API and event contract.
+- `web/features/submissions/`: Adam owns submit/status; Salah owns recruiter review/report UI. **Owner to be assigned** owns version/lifecycle rules.
+- `api/modules/ai/`: Mohamed and Simo split individual cards; do not both independently implement a provider client or prompt system.
 
 Reviewer suggestions are planning guidance, not implemented GitHub permission rules.
 
@@ -237,7 +238,7 @@ The model provider, SDK, and language are still open. Put public response shapes
 
 - Salah's `labs/` module stores/versions approved labs and enforces publication rules.
 - `ai/generation/` generates a draft; it does not publish.
-- Hicham's `submissions/` module owns submission identity, evidence references, review scheduling, and report association.
+- **Owner to be assigned**'s `submissions/` module owns submission identity, evidence references, review scheduling, and report association.
 - `ai/assessment/` interprets a supplied authorized evidence package and returns a validated report.
 - `reviews/` stores the company's human review; AI completion does not change it to Reviewed.
 - Adam's `preparation/` module stores practice attempts/progress. Practice privacy remains separate from company submissions.
@@ -248,14 +249,14 @@ Generation uses the chosen supported template description. Assessment uses saved
 
 Include actual streaming, error handling, and rate limiting for the LLM module. Keep submissions if the provider fails. Do not build a custom hidden-test engine or autonomous execution agent for this release.
 
-RAG remains optional. Keep the request builder capable of accepting source-tagged context later, but do not create empty retrieval services or a vector database now.
+RAG is a planned deliverable. Keep the request builder capable of accepting source-tagged context later, but do not create empty retrieval services or a vector database now.
 
 ## 8. Three workspace locations: why they are separate
 
 | Location | Responsibility | Main owner |
 |---|---|---|
-| `api/modules/workspaces/` | Student/lab association, application permissions, workspace metadata, authorized session requests | Hicham |
-| `apps/workspace-service/` | Runtime lifecycle, file access, terminal connections, consistent capture and run metadata | Mohamed; split gateway/file cards with Hicham; Jamal reviews |
+| `api/modules/workspaces/` | Student/lab association, application permissions, workspace metadata, authorized session requests | **Owner to be assigned** |
+| `apps/workspace-service/` | Runtime lifecycle, file access, terminal connections, consistent capture and run metadata | Mohamed; split gateway/file cards with **Owner to be assigned**; Jamal reviews |
 | `infra/workspace-templates/` | Versioned environment recipe, starter files, capabilities, supported actions | Mohamed with Jamal and domain-developer review |
 
 The application decides whether a student may open a workspace. The workspace service independently checks the authorized request/session before operating it. The template supplies the environment contents.
@@ -296,7 +297,7 @@ Proposed submit response example:
 }
 ```
 
-Adam can build pending-state UI against this example while Hicham builds the endpoint. It is synthetic data, not evidence that the API exists. If the contract changes, update producer, consumers, and examples in the same coordinated change.
+Adam can build pending-state UI against this example while **Owner to be assigned** builds the endpoint. It is synthetic data, not evidence that the API exists. If the contract changes, update producer, consumers, and examples in the same coordinated change.
 
 ## 10. Four examples: where a feature's code goes
 
@@ -304,15 +305,15 @@ Adam can build pending-state UI against this example while Hicham builds the end
 
 - Adam: `web/features/student/` form and `api/modules/students/` API/rules.
 - Jamal: shared authentication, authorization, and file-service support.
-- Adam authors required database changes; Hicham reviews relationships and migration compatibility.
+- Adam authors required database changes; **Owner to be assigned** reviews relationships and migration compatibility.
 - Mohamed supplies the shared environment.
 
-Hicham does not need to implement Adam's profile endpoint.
+**Owner to be assigned** does not need to implement Adam's profile endpoint.
 
 ### B. Company lab drafting
 
 - Salah: `web/features/labs/company/` form, stream display, editor.
-- Mohamed/Jamal: `api/modules/ai/generation/`, provider adapter, prompt/schema.
+- Mohamed/Simo: `api/modules/ai/generation/`, provider adapter, prompt/schema.
 - Salah: `api/modules/labs/` save/approve/publish behavior.
 - Jamal: membership and verification permission controls.
 
@@ -320,13 +321,13 @@ Hicham does not need to implement Adam's profile endpoint.
 
 ```mermaid
 flowchart TD
-    A["Adam: student submission UI"] --> B["Hicham: submission service"]
+    A["Adam: student submission UI"] --> B["Owner to be assigned: submission service"]
     B --> C["Mohamed: workspace snapshot capture"]
     C --> D["Protected snapshot and evidence storage"]
-    B --> E["Hicham: durable review job"]
+    B --> E["Owner to be assigned: durable review job"]
     D --> E
-    E --> F["Mohamed and Jamal: AI assessment"]
-    F --> G["Hicham: save versioned report"]
+    E --> F["Mohamed and Simo: AI assessment"]
+    F --> G["Owner to be assigned: save versioned report"]
     G --> H["Salah: company review UI"]
 ```
 
@@ -336,7 +337,7 @@ Submission storage must succeed before acknowledging success or scheduling revie
 
 - Salah: contact action/company inbox in `web/features/chat/company/`.
 - Adam: student inbox/replies in `web/features/chat/student/`.
-- Hicham: `api/modules/chat/` persistence, eligibility checks, live events, retry behavior.
+- **Owner to be assigned**: `api/modules/chat/` persistence, eligibility checks, live events, retry behavior.
 - Jamal: reusable permissions and cross-company/removed-member checks.
 - Mohamed: deployment support for persistent connections and monitoring.
 
@@ -344,14 +345,14 @@ Eligibility/grouping details remain open. Student replies after company initiati
 
 ## 11. Database changes without blocking each other
 
-Hicham coordinates schema consistency, but each feature owner can author their feature's models/migrations.
+**Owner to be assigned** coordinates schema consistency, but each feature owner can author their feature's models/migrations.
 
 Proposed procedure:
 
 1. Describe new entities/relationships on the task and agree dependencies.
 2. Update from the integration branch before generating a migration.
 3. Use the chosen migration tool and commit the generated migration with the feature.
-4. Ask Hicham to review shared relations and Jamal to review sensitive access implications.
+4. Ask **Owner to be assigned** to review shared relations and Jamal to review sensitive access implications.
 5. Check a fresh database and the relevant upgrade path when the migration affects existing data.
 6. Do not edit a migration already applied to shared environments; add a new one.
 7. Use synthetic seed data, never production user data.
@@ -363,11 +364,11 @@ Choose one ORM/schema source of truth. If it requires a single central schema fi
 | Area | Coordinator | Practical rule |
 |---|---|---|
 | Root dependency manifest/lockfile | Jamal with affected developers | Agree package manager; explain new dependency; regenerate lockfile rather than hand-editing |
-| Route registration and app shell | Jamal with Adam/Salah or Hicham | Keep small; avoid embedding feature implementations here |
-| API/event contracts | Hicham with producer and consumer owners | Review both sides of changes |
-| Database schema/migrations | Hicham | Coordinate ordering and shared relationships |
+| Route registration and app shell | Jamal with Adam/Salah or **Owner to be assigned** | Keep small; avoid embedding feature implementations here |
+| API/event contracts | **Owner to be assigned** with producer and consumer owners | Review both sides of changes |
+| Database schema/migrations | **Owner to be assigned** | Coordinate ordering and shared relationships |
 | Identity/permission primitives | Jamal | Avoid feature-specific copies of auth logic |
-| AI prompts/report schemas | Mohamed + Jamal | Version changes; run selected quality cases |
+| AI prompts/report schemas | Mohamed + Simo | Version changes; run selected quality cases |
 | Compose, proxy, CI, environment config | Mohamed | Explain service/variable changes to affected owners |
 | Shared UI components/theme | Adam + Salah; one owner per card | Reuse before creating a competing component |
 
@@ -460,7 +461,7 @@ Create only what supports the first milestone and the agreed API contracts.
 
 ### Parallel AI learning prototype
 
-Mohamed and Jamal can add a small server-side AI module and synthetic fixtures: form to lab draft, then manual evidence package to advisory report. Do not block basic accounts on workspace provisioning.
+Mohamed and Simo can add a small server-side AI module and synthetic fixtures: form to lab draft, then manual evidence package to advisory report. Do not block basic accounts on workspace provisioning.
 
 ### Add workspaces when starting lab execution
 
@@ -468,11 +469,11 @@ Create the workspace service, template, student workspace UI, API module, and su
 
 ### Add later modules when their tasks are ready
 
-Messaging, analytics, preparation, full monitoring/logging and recovery follow their agreed delivery plan. Optional RAG has no initial directories or services unless needed for actual work.
+Messaging, analytics, preparation, full monitoring/logging and recovery follow their agreed delivery plan. RAG is a planned deliverable with no initial directories or services unless needed for actual work.
 
 ## 17. Setup documentation to complete after stack selection
 
-Mohamed and Jamal should turn these placeholders into verified instructions:
+Mohamed and Simo should turn these placeholders into verified instructions:
 
 | Item | Required decision/documentation |
 |---|---|
@@ -506,7 +507,7 @@ Do not claim `docker compose up --build` or any other command runs this project 
 - Producer/consumer contracts and affected migrations/configuration match.
 - Changes integrated according to the agreed Git workflow.
 - Relevant docs updated; secrets/private data are absent from the diff.
-- Mohamed accepts user-facing behavior; technical reviewers accept implementation.
+- Mohamed accepts user-facing behavior; Simo accepts AI implementation; technical reviewers accept implementation.
 
 Adam coordinates blockers, dependencies, and delivery dates. Jamal resolves architectural conflicts. Mohamed decides product scope and priorities.
 

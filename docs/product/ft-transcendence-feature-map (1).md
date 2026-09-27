@@ -27,7 +27,7 @@ AI helps generate labs and interpret submissions. It does not certify correctnes
 | Student | Essential profile, dashboard, discovery, saved workspaces, submissions, results, invitations, messages | Student completes work and tracks separate AI and human states |
 | Workspace | Instructions, file navigation, editor, terminal, save/resume, connection state, supported build/run actions | Student completes the primary solution in an isolated environment |
 | Submission/evidence | Three short explanations, immutable code/configuration snapshot, evidence manifest, revisions, durable status | Every version remains linked to its student, lab version, and rubric |
-| AI | Company lab generation, streamed preview, submission review, validated report, optional RAG extension point | AI output is editable/advisory and never publishes, ranks, or hires automatically |
+| AI | Company lab generation, streamed preview, submission review, validated report, RAG extension point | AI output is editable/advisory and never publishes, ranks, or hires automatically |
 | Company | Profile, verification, teams, opportunities, versioned labs, publication, candidate review, human decisions, invitations, analytics | Recruiters manage the opportunity lifecycle within their organization |
 | Chat | Company-initiated text conversation, student replies, history, unread state, live delivery, reconnect/retry | Contact is separate from invitation; exact eligibility/grouping remain proposals |
 | Preparation | Backend interview guide, technical/HR practice, practice skill labs, private feedback/progress | Learning progress does not overwrite company assessment |
@@ -266,11 +266,11 @@ flowchart TD
 - streamed company draft preview;
 - error handling, rate limiting, validated structured output, and usage/failure visibility;
 - interview practice and private practice feedback;
-- optional extension point for RAG context.
+- extension point for RAG context.
 
 **Priority order:** company lab generation and submission review come first. Interview and practice AI features remain product scope but must not displace the core company-lab flow.
 
-**Optional later:** RAG, only if time remains. RAG requires a substantial curated dataset, user Q&A, retrieval, and response generation. Supplying current submission data directly to a prompt is not RAG. Do not make vector/retrieval infrastructure a first-release dependency.
+**RAG is a planned deliverable:** document ingestion, text extraction, chunking, embeddings, retrieval, and grounded answers. RAG implementation follows LLM integration; both are in scope. Supplying current submission data directly to a prompt is not RAG. Do not make vector/retrieval infrastructure a first-release dependency.
 
 ### 7.2 Company lab generation
 
@@ -465,10 +465,10 @@ flowchart TD
 
 | Chat deliverable | Owner | Supporting boundary |
 |---|---|---|
-| Conversation model, history, unread, authorization, and live workflow | Hicham | Jamal reviews permissions; Mohamed supports deployment |
+| Conversation model, history, unread, authorization, and live workflow | **Owner to be assigned** | Jamal reviews permissions; Mohamed supports deployment |
 | Student inbox, history, replies, reconnect, and retry UI | Adam | Uses the shared messaging contract |
 | Company contact action and inbox | Salah | Contact remains separate from invitation |
-| Cross-company, removed-member, and unauthorized-access tests | Jamal | Hicham fixes implementation findings |
+| Cross-company, removed-member, and unauthorized-access tests | Jamal | **Owner to be assigned** fixes implementation findings |
 
 ## 10. Administration, notifications, and shared platform behavior
 
@@ -506,11 +506,12 @@ The ownership document is authoritative for cards and review boundaries. This ta
 
 | Member | Feature ownership |
 |---|---|
-| Mohamed | Product priorities/acceptance; workspace templates, provisioning, lifecycle, storage infrastructure, resource controls, execution capture, deployment/monitoring; AI integration and streaming with Jamal |
-| Jamal | Technical leadership and critical reviews; authentication/security/admin; workspace isolation/access review; AI I/O protection and shared rate limits; prompts, schemas, review logic, and quality evaluation with Mohamed |
+| Mohamed | Product priorities/acceptance; workspace templates, provisioning, lifecycle, storage infrastructure, resource controls, execution capture, deployment/monitoring; AI integration and streaming with Simo |
+| Simo | LLM integration and RAG; AI behavior, prompts, schemas, quality evaluation with Mohamed |
+| Jamal | Technical leadership and critical reviews; authentication/security/admin; workspace isolation/access review; selected backend work |
 | Adam | PM coordination; student features; workspace UI and editor/terminal integration; save/resume states; explanations and submission status; student chat; preparation progress APIs |
 | Salah | Company features and public home; generation form, streamed preview, lab editor/approval/publication; candidate solution/evidence/report UI; company chat and human decisions; complete analytics frontend/backend |
-| Hicham | Submission snapshots/versioning; evidence metadata; durable AI jobs/retries/report access; existing submissions, human reviews, invitations, notifications, and messaging |
+| **Owner to be assigned** | Submission snapshots/versioning; evidence metadata; durable AI jobs/retries/report access; existing submissions, human reviews, invitations, notifications, and messaging |
 
 For shared work, split interface, service, infrastructure, security, and quality concerns into independently owned deliverables with named reviewers and dependencies.
 
@@ -697,7 +698,7 @@ Each module must satisfy all stated subject requirements. Partial implementation
 - Submission snapshots, bounded evidence, three explanations, background AI review, and human review are separate related behaviors.
 - Company-lab AI report student visibility is not yet decided; practice feedback is private by default.
 - Company-initiated text chat is included; eligibility and grouping need confirmation.
-- Complete LLM interface is committed; RAG is optional later.
+- Complete LLM interface is committed; RAG is a planned deliverable (document ingestion, text extraction, chunking, embeddings, retrieval, and grounded answers).
 
 ### 17.2 Proposals, not confirmed implementation choices
 
@@ -715,6 +716,6 @@ Each module must satisfy all stated subject requirements. Partial implementation
 - Whether students see company-lab AI reports and whether advisory numbers are shown.
 - Chat eligibility, grouping, and membership-change behavior.
 - Required written feedback, invitation scheduling/acceptance, notification channels, and search filters.
-- Model/provider selection and optional RAG only after confirmed scope is stable.
+- Model/provider selection and RAG implementation details after confirmed scope is stable.
 
 The team must decide these items explicitly. This feature map does not select a stack, provider, deadline, numeric limit, or unresolved policy.
